@@ -3,7 +3,7 @@
     <template v-if="!isLoading">
       <page-header />
       <div class="container">
-        <base-breadcrumbs :routes="[this.$route.meta.name]" />
+        <base-breadcrumbs :routes="[this.$route.path]" />
         <h1>Lista de membros</h1>
         <div class="grid">
           <div class="box col-4">
