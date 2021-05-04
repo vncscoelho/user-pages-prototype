@@ -12,7 +12,7 @@
       @input="handleChange"
     >
     <span class="base-checkbox__text">
-      <slot />
+      {{ label }}
     </span>
   </label>
 </template>
@@ -30,6 +30,10 @@ export default {
     value: {
       type: String,
       default: null,
+    },
+    label: {
+      type: String,
+      default: '',
     },
   },
   methods: {

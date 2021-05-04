@@ -1,4 +1,4 @@
-import database from '@/api/database.json';
+import { results } from '@/api/database.json';
 
 const mockRequest = async (fn, ...params) => {
   await new Promise((resolve) => {
@@ -15,5 +15,11 @@ export default class API {
     });
   }
 
-  static getData = () => database;
+  static getStates = () => results.reduce((allStates, { location }) => {
+    const { state } = location;
+    if (!allStates.includes(state)) {
+      allStates.push(state);
+    }
+    return allStates;
+  }, []);
 }
