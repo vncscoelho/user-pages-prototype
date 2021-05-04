@@ -31,7 +31,7 @@ export default {
   align-items: center;
   width: 100%;
   padding: 0.75em 1em;
-  border: $border;
+  border: 1px solid $grey-300;
   border-radius: $radius;
   background: #fff;
   &__element {
