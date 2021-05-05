@@ -22,4 +22,25 @@ export default class API {
     }
     return allStates;
   }, []);
+
+  static getPeople = () => results.map(({
+    gender, name, location, picture, dob,
+  }) => {
+    const id = `${name.first}-${name.last}-${new Date(dob.date).getTime()}`;
+    const fullName = `${name.first} ${name.last}`;
+    const {
+      street, postcode, city, state,
+    } = location;
+    const { thumbnail } = picture;
+    return {
+      id,
+      fullName,
+      gender,
+      street,
+      postcode,
+      city,
+      state,
+      thumbnail,
+    };
+  });
 }
