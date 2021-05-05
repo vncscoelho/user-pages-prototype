@@ -1,12 +1,13 @@
 <template>
-  <div class="member-list">
-    <template v-if="!isLoading">
-      <page-header />
-      <div class="container">
-        <base-breadcrumbs :routes="[this.$route.path]" />
-        <h1>Lista de membros</h1>
-        <div class="grid">
-          <div class="box col-4">
+  <div class="member-list page">
+    <div class="container">
+      <base-breadcrumbs :routes="[this.$route.path]" />
+      <h1 class="member-list__title">
+        Lista de membros
+      </h1>
+      <div class="member-list__content grid">
+        <div class="col-4">
+          <div class="box">
             <h2>Por estado</h2>
             <base-checkbox
               v-for="(state, index) in states"
@@ -16,37 +17,30 @@
               :label="state"
             />
           </div>
-          <div class="col-8 grid">
-            <div class="col-12 box">
-              <span>Mostrando {{ people.length }} de
-                {{ people.length }} resultados</span>
-              <base-select
-                :options="[
-                  {
-                    key: 'name',
-                    label: 'Nome',
-                  },
-                  {
-                    key: 'city',
-                    label: 'Cidade',
-                  },
-                ]"
-                v-model="filters.sort"
-              />
-            </div>
-            <div class="col-12 grid">
-              <person-card
-                v-for="person in people"
-                class="col-4"
-                :person="person"
-                :key="person.id"
-              />
-            </div>
+        </div>
+        <div class="col-8 grid">
+          <div class="col-12 box space-between">
+            <span
+              class="member-list__results"
+            >Mostrando {{ people.results.length }} de
+              {{ people.total }} resultados</span>
+            <base-paginator
+              :pages="people.pages"
+              :value="people.current_page"
+            />
+          </div>
+          <div class="col-12 grid">
+            <person-card
+              v-for="person in people.results"
+              class="col-4"
+              :person="person"
+              :key="person.id"
+            />
           </div>
         </div>
       </div>
-    </template>
-    <base-loader v-else />
+    </div>
+    <base-loader v-show="isLoading" />
   </div>
 </template>
 
@@ -57,9 +51,8 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
-    PageHeader: () => import('@/components/PageHeader.vue'),
     BaseBreadcrumbs: () => import('@/components/UI/BaseBreadcrumbs.vue'),
-    BaseSelect: () => import('@/components/UI/BaseSelect.vue'),
+    BasePaginator: () => import('@/components/UI/BasePaginator.vue'),
     PersonCard: () => import('@/components/PersonCard.vue'),
     BaseCheckbox,
     BaseLoader,
@@ -70,16 +63,26 @@ export default {
         states: [],
         sort: null,
       },
-      isLoading: false,
+      isLoading: true,
     };
   },
   watch: {
     'filters.states': {
       handler(states) {
-        this.fetchPeople({
-          filter: 'by_states',
-          filterData: states,
-        });
+        let params = {};
+        if (states.length) {
+          params = {
+            filter: 'by_states',
+            filterData: states,
+          };
+        }
+        this.loadPeople(params);
+      },
+    },
+    '$route.params.page': {
+      handler(value) {
+        const page = value || 1;
+        this.loadPeople({ page });
       },
     },
   },
@@ -94,8 +97,14 @@ export default {
   },
   methods: {
     async fetchData() {
-      await this.fetchPeople();
+      await this.fetchPeople({ page: this.$route.page });
       await this.fetchStates();
+      this.isLoading = false;
+    },
+    async loadPeople(params) {
+      this.isLoading = true;
+      await this.fetchPeople(params);
+      this.isLoading = false;
     },
     ...mapActions({
       fetchPeople: 'fetchPeople',
@@ -105,4 +114,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.member-list {
+  &__content {
+    margin-top: 2.5em;
+    .base-checkbox {
+      text-transform: capitalize;
+    }
+  }
+  &__title {
+    margin-top: 1.5em;
+  }
+  &__results {
+    font-size: 0.8em;
+  }
+}
+</style>

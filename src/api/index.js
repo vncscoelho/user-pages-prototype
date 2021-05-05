@@ -24,7 +24,7 @@ const paginate = (data, page, itemsPerPage = 20) => {
     result[index] = [...data].splice(start, itemsPerPage);
   });
   return {
-    results: result[page],
+    results: result[page - 1],
     pages,
     current_page: page,
     perPage: itemsPerPage,
@@ -50,7 +50,7 @@ export default class API {
   }, []);
 
   /* Get, filter and paginate people */
-  static getPeople = ({ filter, filterData, page = 0 }) => {
+  static getPeople = ({ filter, filterData, page = 1 }) => {
     const filteredData = results.reduce(
       (result, {
         gender, name, location, picture, dob,

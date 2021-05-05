@@ -15,8 +15,11 @@ const routes = [
   },
   {
     name: 'member-list',
-    path: '/member-list',
+    path: '/member-list/:page?',
     component: () => import('@/views/MemberList.vue'),
+    params: {
+      page: 1,
+    },
     meta: {
       title: 'Lista de membros',
     },

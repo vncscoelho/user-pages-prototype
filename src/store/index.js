@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     people: {
       results: [],
-      current_page: 0,
+      current_page: 1,
       pages: 0,
       total: 0,
     },
@@ -42,7 +42,6 @@ export default new Vuex.Store({
       },
     ) {
       return api.getPeople(params).then((data) => {
-        console.log(data);
         commit('SET_PEOPLE', data);
       });
     },
