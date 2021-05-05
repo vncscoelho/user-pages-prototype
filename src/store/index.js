@@ -28,8 +28,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    fetchPeople({ commit }) {
-      api.getPeople().then((data) => {
+    fetchPeople({ commit }, params = {}) {
+      api.getPeople(params).then((data) => {
         commit('SET_PEOPLE', data);
       });
     },

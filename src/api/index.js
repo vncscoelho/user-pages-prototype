@@ -1,10 +1,14 @@
 import { results } from '@/api/database.json';
 
-const mockRequest = async (fn, ...params) => {
+const mockRequest = async (fn, params) => {
   await new Promise((resolve) => {
-    setTimeout(resolve, 2000);
+    setTimeout(resolve, 1000);
   });
   return fn(params);
+};
+
+const availableFilters = {
+  by_states: ({ state }, states) => states.includes(state),
 };
 
 export default class API {
@@ -23,7 +27,7 @@ export default class API {
     return allStates;
   }, []);
 
-  static getPeople = () => results.map(({
+  static getPeople = ({ filter, filterData }) => results.reduce((result, {
     gender, name, location, picture, dob,
   }) => {
     const id = `${name.first}-${name.last}-${new Date(dob.date).getTime()}`;
@@ -32,15 +36,22 @@ export default class API {
       street, postcode, city, state,
     } = location;
     const { thumbnail } = picture;
-    return {
-      id,
-      fullName,
-      gender,
-      street,
-      postcode,
-      city,
-      state,
-      thumbnail,
-    };
-  });
+    const hasPassedFilter = availableFilters[filter]
+      ? availableFilters[filter](location, filterData)
+      : true;
+
+    if (hasPassedFilter === true) {
+      result.push({
+        id,
+        fullName,
+        gender,
+        street,
+        postcode,
+        city,
+        state,
+        thumbnail,
+      });
+    }
+    return result;
+  }, []);
 }

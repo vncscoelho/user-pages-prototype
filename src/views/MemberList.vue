@@ -73,6 +73,16 @@ export default {
       isLoading: false,
     };
   },
+  watch: {
+    'filters.states': {
+      handler(states) {
+        this.fetchPeople({
+          filter: 'by_states',
+          filterData: states,
+        });
+      },
+    },
+  },
   computed: {
     ...mapGetters({
       states: 'getStates',
