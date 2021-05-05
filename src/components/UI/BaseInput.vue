@@ -10,6 +10,7 @@
       type="text"
       class="base-input__element"
       v-bind="{ ...$attrs }"
+      :value="value"
       @input="$emit('input', $event.target.value)"
       @focus="$emit('focus', $event)"
       @blur="$emit('blur', $event)"
@@ -24,6 +25,10 @@ export default {
     icon: {
       type: String,
       default: null,
+    },
+    value: {
+      type: String,
+      default: '',
     },
   },
 };
