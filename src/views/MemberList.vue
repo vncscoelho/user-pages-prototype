@@ -35,6 +35,7 @@
               class="col-4"
               :person="person"
               :key="person.id"
+              @click="goToPersonPage(person.id)"
             />
           </div>
         </div>
@@ -105,6 +106,9 @@ export default {
       this.isLoading = true;
       await this.fetchPeople(params);
       this.isLoading = false;
+    },
+    goToPersonPage(id) {
+      this.$router.push({ name: 'person-page', params: { id } });
     },
     ...mapActions({
       fetchPeople: 'fetchPeople',

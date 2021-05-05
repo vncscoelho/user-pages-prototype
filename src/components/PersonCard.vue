@@ -1,5 +1,10 @@
 <template>
-  <section class="person-card box">
+  <section
+    class="person-card box"
+    tabindex="0"
+    @click="$emit('click')"
+    :class="{ 'person-card--clickable': _events.click }"
+  >
     <template v-if="person">
       <div class="person-card__thumbnail">
         <img
@@ -60,6 +65,9 @@ export default {
       margin: 0;
       font-size: 0.8em;
     }
+  }
+  &--clickable {
+    cursor: pointer;
   }
 }
 </style>
