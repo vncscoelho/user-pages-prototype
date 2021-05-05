@@ -10,7 +10,7 @@
             <h2>Por estado</h2>
             <base-checkbox
               v-for="(state, index) in states"
-              v-model="checkedStates"
+              v-model="filters.states"
               :key="`state-${index}`"
               :value="state"
               :label="state"
@@ -18,7 +18,21 @@
           </div>
           <div class="col-8 grid">
             <div class="col-12 box">
-              Mostrando x de 12 resultados
+              <span>Mostrando {{ people.length }} de
+                {{ people.length }} resultados</span>
+              <base-select
+                :options="[
+                  {
+                    key: 'name',
+                    label: 'Nome',
+                  },
+                  {
+                    key: 'city',
+                    label: 'Cidade',
+                  },
+                ]"
+                v-model="filters.sort"
+              />
             </div>
             <div class="col-12 grid">
               <person-card
@@ -45,13 +59,17 @@ export default {
   components: {
     PageHeader: () => import('@/components/PageHeader.vue'),
     BaseBreadcrumbs: () => import('@/components/UI/BaseBreadcrumbs.vue'),
+    BaseSelect: () => import('@/components/UI/BaseSelect.vue'),
     PersonCard: () => import('@/components/PersonCard.vue'),
     BaseCheckbox,
     BaseLoader,
   },
   data() {
     return {
-      checkedStates: [],
+      filters: {
+        states: [],
+        sort: null,
+      },
       isLoading: false,
     };
   },
