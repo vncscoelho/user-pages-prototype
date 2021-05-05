@@ -10,7 +10,11 @@
       type="text"
       class="base-input__element"
       v-bind="$attrs"
+      @input="$emit('input', $event.target.value)"
+      @focus="$emit('focus', $event)"
+      @blur="$emit('blur', $event)"
     >
+    <slot name="bottom" />
   </div>
 </template>
 
@@ -27,12 +31,12 @@ export default {
 
 <style lang="scss">
 .base-input {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
   padding: 0.75em 1em;
   border: 1px solid $grey-300;
-  border-radius: $radius;
   background: #fff;
   &__element {
     outline: none;

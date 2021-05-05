@@ -2,13 +2,18 @@
   <div id="app">
     <page-header />
     <router-view />
+    <page-footer />
   </div>
 </template>
 
 <script>
+import PageHeader from '@/components/PageHeader.vue';
+import PageFooter from '@/components/PageFooter.vue';
+
 export default {
   components: {
-    PageHeader: () => import('@/components/PageHeader.vue'),
+    PageHeader,
+    PageFooter,
   },
 };
 </script>
