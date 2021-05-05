@@ -9,13 +9,14 @@
           <page-logo />
         </a>
       </div>
-      <div class="col-5">
+      <div class="col-5 page-header__search">
         <base-input
           class="page-header__search-box"
-          placeholder="Procurar membro"
+          placeholder="Digite o nome do membro"
           icon="🔍"
           v-model="currentQuery"
           @blur="toggleFocus(false)"
+          :disabled="isLoading"
           ref="search-box"
         >
           <div
@@ -32,9 +33,12 @@
             </router-link>
           </div>
         </base-input>
-        <button @click="changeSearch">
-          aaa
-        </button>
+        <base-button
+          @click="changeSearch"
+          :disabled="isLoading"
+        >
+          Buscar
+        </base-button>
       </div>
     </div>
   </header>
@@ -43,17 +47,20 @@
 <script>
 import PageLogo from '@/components/PageLogo.vue';
 import BaseInput from '@/components/UI/BaseInput.vue';
+import BaseButton from '@/components/UI/BaseButton.vue';
 
 export default {
   components: {
     PageLogo,
     BaseInput,
+    BaseButton,
   },
   data() {
     return {
       currentQuery: '',
       searchResults: [],
       inputFocus: false,
+      isLoading: false,
     };
   },
   computed: {
@@ -69,6 +76,7 @@ export default {
   },
   methods: {
     async changeSearch() {
+      this.isLoading = true;
       await this.$api
         .getPeople({
           itemsByPage: 5,
@@ -78,6 +86,9 @@ export default {
         .then(({ results }) => {
           this.searchResults = results;
           this.toggleFocus(true);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     toggleFocus(value) {
@@ -101,6 +112,9 @@ export default {
   &__wrapper {
     display: flex;
     align-items: center;
+  }
+  &__search {
+    display: flex;
   }
   &__search-results {
     position: absolute;

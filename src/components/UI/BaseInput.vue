@@ -9,7 +9,7 @@
     <input
       type="text"
       class="base-input__element"
-      v-bind="$attrs"
+      v-bind="{ ...$attrs }"
       @input="$emit('input', $event.target.value)"
       @focus="$emit('focus', $event)"
       @blur="$emit('blur', $event)"
@@ -39,9 +39,14 @@ export default {
   border: 1px solid $grey-300;
   background: #fff;
   &__element {
+    width: 100%;
     outline: none;
     border: 0;
     background: none;
+    &:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
   }
   &__icon {
     & + input {
