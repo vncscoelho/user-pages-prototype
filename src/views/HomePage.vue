@@ -7,14 +7,14 @@
           appear
           v-if="currentPerson"
         >
-          <h1 key="1">
+          <h1 key="call-to-action-element-1">
             {{ currentPerson.fullName }}
           </h1>
-          <p key="2">
+          <p key="call-to-action-element-2">
             É apenas um de nossos membros, espalhados pelo mundo inteiro.
           </p>
           <router-link
-            key="3"
+            key="call-to-action-element-3"
             to="member-list"
           >
             <base-button>Ver todos os membros</base-button>
@@ -54,9 +54,14 @@ export default {
     };
   },
   created() {
-    this.$api.getRandom().then((person) => {
-      this.currentPerson = person;
-    });
+    this.fetchRandomPerson();
+  },
+  methods: {
+    fetchRandomPerson() {
+      this.$api.getRandom().then((person) => {
+        this.currentPerson = person;
+      });
+    },
   },
 };
 </script>
