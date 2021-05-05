@@ -139,5 +139,13 @@ export default {
       }
     }
   }
+  .base-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .base-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 </style>

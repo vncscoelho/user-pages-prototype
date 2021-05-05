@@ -1,5 +1,5 @@
 <template>
-  <div class="base-input">
+  <div class="base-input box">
     <span
       v-if="icon"
       class="base-input__icon"
@@ -36,7 +36,6 @@ export default {
   align-items: center;
   width: 100%;
   padding: 0.75em 1em;
-  border: 1px solid $grey-300;
   background: #fff;
   &__element {
     width: 100%;

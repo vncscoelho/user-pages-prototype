@@ -68,7 +68,7 @@ export default class API {
       const {
         street, postcode, city, state,
       } = location;
-      const { thumbnail } = picture;
+      const { medium } = picture;
       /* Filtering */
       const hasPassedFilter = availableFilters[filter]
         ? availableFilters[filter]({ id, fullName, ...location }, filterData)
@@ -83,7 +83,7 @@ export default class API {
           postcode,
           city,
           state,
-          thumbnail,
+          thumbnail: medium,
           ...(allData ? personData : {}),
         });
       }

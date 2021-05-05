@@ -69,8 +69,9 @@
       v-if="person"
       class="person-page__map"
       :src="
-        `https://www.openstreetmap.org/export/embed.html?bbox=${person.location.coordinates.latitude}%2C${person.location.coordinates.longitude}%2C-20.459093749523166%2C-50.717844716742476&amp;layer=mapnik`
+        `https://www.openstreetmap.org/export/embed.html?bbox=-251.01562500000003%2C-79.36770077764092%2C92.81250000000001%2C84.73838712095339&amp;layer=mapnik&amp;marker=${person.location.coordinates.longitude}%2C${person.location.coordinates.latitude}`
       "
+    />
     />
     <base-loader v-show="isLoading" />
   </div>

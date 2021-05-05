@@ -49,10 +49,14 @@ export default {
   padding: 2.25em 1em;
   text-align: center;
   text-transform: capitalize;
+  transition: 125ms linear;
+  &:hover {
+    transform: scale(1.05);
+  }
   &__thumbnail {
     display: inline-block;
-    height: 48px;
-    width: 48px;
+    height: 72px;
+    width: 72px;
     border-radius: 50%;
     overflow: hidden;
   }

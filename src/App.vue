@@ -24,7 +24,8 @@ body {
   color: $text;
 }
 .box {
-  border: $border;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
   @extend .spaced;
 }
 .spaced {
