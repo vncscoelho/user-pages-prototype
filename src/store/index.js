@@ -8,7 +8,9 @@ const api = new API();
 
 export default new Vuex.Store({
   state: {
-    people: [],
+    people: {
+      results: [],
+    },
     states: [],
   },
   getters: {
@@ -28,7 +30,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    fetchPeople({ commit }, params = {}) {
+    fetchPeople(
+      { commit },
+      params = {
+        filter: null,
+        filterData: null,
+        page: 3,
+      },
+    ) {
       api.getPeople(params).then((data) => {
         commit('SET_PEOPLE', data);
       });
