@@ -1,7 +1,9 @@
 <template>
   <footer class="page-footer">
     <div class="container">
-      <page-logo white />
+      <router-link to="/">
+        <page-logo white />
+      </router-link>
     </div>
   </footer>
 </template>

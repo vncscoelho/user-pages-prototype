@@ -9,6 +9,7 @@ const mockRequest = async (fn, params) => {
 };
 
 const generateId = (name, dob) => `${name.first}-${name.last}-${new Date(dob.date).getTime()}`;
+const formatName = (name) => `${name.first} ${name.last}`;
 
 /* All filter functions */
 const availableFilters = {
@@ -63,7 +64,7 @@ export default class API {
         gender, name, location, picture, dob,
       } = personData;
       const id = generateId(name, dob);
-      const fullName = `${name.first} ${name.last}`;
+      const fullName = formatName(name);
       const {
         street, postcode, city, state,
       } = location;
@@ -89,5 +90,16 @@ export default class API {
       return result;
     }, []);
     return paginate(filteredData, page, itemsPerPage);
+  };
+
+  static getRandom = () => {
+    console.log(results.length);
+    const position = Math.floor(Math.random() * results.length);
+    const { location, name } = results[position];
+    return {
+      latitude: location.coordinates.latitude,
+      longitude: location.coordinates.longitude,
+      fullName: formatName(name),
+    };
   };
 }

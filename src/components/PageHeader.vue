@@ -107,6 +107,7 @@ export default {
 .page-header {
   position: sticky;
   top: 0;
+  z-index: 5;
   padding: 1.75em 0;
   background-color: $grey-100;
   &__wrapper {
