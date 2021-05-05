@@ -110,12 +110,10 @@ export default {
             allData: true,
           })
           .then(({ results }) => {
-            console.log(results);
             const [person] = results;
             this.person = person;
           })
           .finally(() => {
-            console.log('results');
             this.isLoading = false;
           });
       }
