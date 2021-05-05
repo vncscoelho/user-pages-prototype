@@ -93,7 +93,6 @@ export default class API {
   };
 
   static getRandom = () => {
-    console.log(results.length);
     const position = Math.floor(Math.random() * results.length);
     const { location, name } = results[position];
     return {

@@ -53,7 +53,9 @@
           scrolling="no"
           marginheight="0"
           marginwidth="0"
-          :src="`https://www.openstreetmap.org/export/embed.html?bbox=${person.location.coordinates.latitude}%2C${person.location.coordinates.longitude}%2C-20.459093749523166%2C-50.717844716742476&amp;layer=mapnik`"
+          :src="
+            `https://www.openstreetmap.org/export/embed.html?bbox=${person.location.coordinates.latitude}%2C${person.location.coordinates.longitude}%2C-20.459093749523166%2C-50.717844716742476&amp;layer=mapnik`
+          "
         />
       </div>
     </div>
@@ -87,7 +89,6 @@ export default {
           })
           .then(({ results }) => {
             const [person] = results;
-            console.log(person);
             this.person = person;
           })
           .finally(() => {
