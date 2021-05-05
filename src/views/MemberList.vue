@@ -20,8 +20,13 @@
             <div class="col-12 box">
               Mostrando x de 12 resultados
             </div>
-            <div class="col-12 spaced">
-              results
+            <div class="col-12 grid">
+              <person-card
+                v-for="person in people"
+                class="col-4"
+                :person="person"
+                :key="person.id"
+              />
             </div>
           </div>
         </div>
@@ -34,12 +39,13 @@
 <script>
 import BaseCheckbox from '@/components/UI/BaseCheckbox.vue';
 import BaseLoader from '@/components/UI/BaseLoader.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
     PageHeader: () => import('@/components/PageHeader.vue'),
     BaseBreadcrumbs: () => import('@/components/UI/BaseBreadcrumbs.vue'),
+    PersonCard: () => import('@/components/PersonCard.vue'),
     BaseCheckbox,
     BaseLoader,
   },
@@ -52,17 +58,21 @@ export default {
   computed: {
     ...mapGetters({
       states: 'getStates',
+      people: 'getPeople',
     }),
   },
   created() {
     this.fetchData();
   },
   methods: {
-    fetchData() {
-      this.$store.dispatch('fetchStates').then(() => {
-        this.isLoading = false;
-      });
+    async fetchData() {
+      await this.fetchPeople();
+      await this.fetchStates();
     },
+    ...mapActions({
+      fetchPeople: 'fetchPeople',
+      fetchStates: 'fetchStates',
+    }),
   },
 };
 </script>
