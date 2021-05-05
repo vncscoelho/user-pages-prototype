@@ -10,6 +10,9 @@ export default new Vuex.Store({
   state: {
     people: {
       results: [],
+      current_page: 0,
+      pages: 0,
+      total: 0,
     },
     states: [],
   },
@@ -35,15 +38,16 @@ export default new Vuex.Store({
       params = {
         filter: null,
         filterData: null,
-        page: 3,
+        page: 0,
       },
     ) {
-      api.getPeople(params).then((data) => {
+      return api.getPeople(params).then((data) => {
+        console.log(data);
         commit('SET_PEOPLE', data);
       });
     },
     fetchStates({ commit }) {
-      api.getStates().then((data) => {
+      return api.getStates().then((data) => {
         commit('SET_STATES', data);
       });
     },

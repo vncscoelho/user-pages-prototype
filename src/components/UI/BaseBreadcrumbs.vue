@@ -52,6 +52,9 @@ export default {
     a {
       text-decoration: none;
       color: $primary;
+      &:hover {
+        color: $secondary;
+      }
     }
     &--current span {
       font-weight: bold;
