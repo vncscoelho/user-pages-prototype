@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/Home.vue';
+import HomePage from '@/views/HomePage.vue';
 
 Vue.use(VueRouter);
 
@@ -8,7 +8,7 @@ const routes = [
   {
     name: 'home',
     path: '/',
-    component: Home,
+    component: HomePage,
     meta: {
       title: 'Home',
     },
@@ -22,6 +22,17 @@ const routes = [
     },
     meta: {
       title: 'Lista de membros',
+    },
+  },
+  {
+    name: 'person-page',
+    path: '/person/:id',
+    component: () => import('@/views/PersonPage.vue'),
+    params: {
+      page: 1,
+    },
+    meta: {
+      title: 'Perfil',
     },
   },
 ];

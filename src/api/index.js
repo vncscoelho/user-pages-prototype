@@ -8,10 +8,13 @@ const mockRequest = async (fn, params) => {
   return fn(params);
 };
 
+const generateId = (name, dob) => `${name.first}-${name.last}-${new Date(dob.date).getTime()}`;
+
 /* All filter functions */
 const availableFilters = {
   by_states: ({ state }, states) => states.includes(state),
   by_name: ({ fullName }, query) => fullName.search(query) !== -1,
+  by_id: ({ id }, queryId) => id === queryId,
 };
 
 /* Pagination - The last time I did this was with PHP */
@@ -52,40 +55,39 @@ export default class API {
 
   /* Get, filter and paginate people */
   static getPeople = ({
-    filter, filterData, page, itemsPerPage,
+    filter, filterData, page, itemsPerPage, allData,
   }) => {
-    const filteredData = results.reduce(
-      (result, {
+    const filteredData = results.reduce((result, personData) => {
+      /* Payload formatting */
+      const {
         gender, name, location, picture, dob,
-      }) => {
-        /* Payload formatting */
-        const id = `${name.first}-${name.last}-${new Date(dob.date).getTime()}`;
-        const fullName = `${name.first} ${name.last}`;
-        const {
-          street, postcode, city, state,
-        } = location;
-        const { thumbnail } = picture;
-        /* Filtering */
-        const hasPassedFilter = availableFilters[filter]
-          ? availableFilters[filter]({ fullName, ...location }, filterData)
-          : true;
+      } = personData;
+      const id = generateId(name, dob);
+      const fullName = `${name.first} ${name.last}`;
+      const {
+        street, postcode, city, state,
+      } = location;
+      const { thumbnail } = picture;
+      /* Filtering */
+      const hasPassedFilter = availableFilters[filter]
+        ? availableFilters[filter]({ id, fullName, ...location }, filterData)
+        : true;
 
-        if (hasPassedFilter) {
-          result.push({
-            id,
-            fullName,
-            gender,
-            street,
-            postcode,
-            city,
-            state,
-            thumbnail,
-          });
-        }
-        return result;
-      },
-      [],
-    );
+      if (hasPassedFilter) {
+        result.push({
+          id,
+          fullName,
+          gender,
+          street,
+          postcode,
+          city,
+          state,
+          thumbnail,
+          ...(allData ? personData : {}),
+        });
+      }
+      return result;
+    }, []);
     return paginate(filteredData, page, itemsPerPage);
   };
 }
