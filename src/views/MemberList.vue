@@ -6,7 +6,7 @@
         Lista de membros
       </h1>
       <div class="member-list__content grid">
-        <div class="col-4">
+        <div class="col-4 col-sm-12">
           <div class="box">
             <h2>Por estado</h2>
             <base-checkbox
@@ -18,7 +18,7 @@
             />
           </div>
         </div>
-        <div class="col-8 grid">
+        <div class="col-8 col-sm-12 grid">
           <div class="col-12 box space-between">
             <span
               class="member-list__results"
@@ -32,7 +32,7 @@
           <div class="col-12 grid">
             <person-card
               v-for="person in people.results"
-              class="col-4"
+              class="col-4 col-sm-6"
               :person="person"
               :key="person.id"
               @click="goToPersonPage(person.id)"

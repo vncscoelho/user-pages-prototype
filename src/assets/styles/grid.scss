@@ -4,6 +4,7 @@
 
   @media screen and (max-width: 1300px) {
     max-width: 1024px;
+    padding: 0 2em;
   }
 }
 
@@ -16,6 +17,12 @@
 @mixin col($number) {
   .col-#{$number} {
     grid-column: span $number;
+  }
+
+  .col-sm-#{$number} {
+    @media screen and (max-width: 900px) {
+      grid-column: span $number;
+    }
   }
 }
 

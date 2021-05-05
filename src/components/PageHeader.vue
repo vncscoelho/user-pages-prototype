@@ -6,7 +6,10 @@
           href="/"
           class="page-header__logo"
         >
-          <page-logo />
+          <page-logo
+            v-responsive-logo
+            :no-logotype="isSmallScreen"
+          />
         </a>
       </div>
       <div class="col-9 page-header__search">
@@ -55,12 +58,31 @@ export default {
     BaseInput,
     BaseButton,
   },
+  directives: {
+    'responsive-logo': {
+      bind(_, __, vnode) {
+        window.addEventListener(
+          'resize',
+          () => vnode.context.toggleSmallScreen(window.outerWidth),
+          false,
+        );
+      },
+      unbind(_, __, vnode) {
+        window.removeEventListener(
+          'resize',
+          () => vnode.context.toggleSmallScreen(window.outerWidth),
+          false,
+        );
+      },
+    },
+  },
   data() {
     return {
       currentQuery: '',
       searchResults: [],
       inputFocus: false,
       isLoading: false,
+      isSmallScreen: false,
     };
   },
   computed: {
@@ -98,6 +120,13 @@ export default {
       if (!document.activeElement.className.includes('.base-input__element')) {
         this.inputFocus = false;
       }
+    },
+    toggleSmallScreen(viewport) {
+      if (viewport > 900) {
+        this.isSmallScreen = false;
+        return;
+      }
+      this.isSmallScreen = true;
     },
   },
 };
