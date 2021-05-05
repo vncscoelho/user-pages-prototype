@@ -30,13 +30,11 @@ export default new Vuex.Store({
   actions: {
     fetchPeople({ commit }) {
       api.getPeople().then((data) => {
-        console.log(data);
         commit('SET_PEOPLE', data);
       });
     },
     fetchStates({ commit }) {
       api.getStates().then((data) => {
-        console.log(data);
         commit('SET_STATES', data);
       });
     },
