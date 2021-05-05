@@ -1,69 +1,90 @@
 <template>
-  <div class="person-page container page">
-    <div
-      class="grid"
-      v-if="person.dob"
-    >
-      <div class="col-12">
-        <img
-          :src="person.picture.large"
-          :alt="person.fullName"
-        >
-        <h1>{{ person.fullName }}</h1>
-        <small>Membro há {{ person.registered.age }} anos</small>
-      </div>
-      <div class="col-6">
-        <section>
-          <h2>Dados pessoais</h2>
-          <dl>
-            <dt>Telefones</dt>
-            <dd>{{ person.cell }} / {{ person.phone }}</dd>
-            <dt>E-mail</dt>
-            <dd>{{ person.email }}</dd>
-            <dt>Idade</dt>
-            <dd>{{ person.dob.age }}</dd>
-            <dt>Fuso horário</dt>
-            <dd>
-              {{ person.location.timezone.offset }}
-              {{ person.location.timezone.description }}
-            </dd>
-          </dl>
-        </section>
-      </div>
-      <div class="col-6">
-        <section>
-          <h2>Endereço</h2>
-          <dt>Rua</dt>
-          <dd>{{ person.street }}</dd>
-          <dt>Cidade</dt>
-          <dd>{{ person.city }}</dd>
-          <dt>Estado</dt>
-          <dd>{{ person.state }}</dd>
-          <dt>CEP</dt>
-          <dd>{{ person.postcode }}</dd>
-        </section>
-      </div>
-      <div class="col-12">
-        <!-- eslint-disable vue/max-len -->
-        <iframe
-          class="person-page__map"
-          width="100%"
-          height="400"
-          frameborder="0"
-          scrolling="no"
-          marginheight="0"
-          marginwidth="0"
-          :src="
-            `https://www.openstreetmap.org/export/embed.html?bbox=${person.location.coordinates.latitude}%2C${person.location.coordinates.longitude}%2C-20.459093749523166%2C-50.717844716742476&amp;layer=mapnik`
-          "
-        />
+  <div class="person-page">
+    <div class="container">
+      <base-breadcrumbs
+        class="page"
+        :routes="['/member-list', this.$route]"
+      />
+      <div
+        class="grid"
+        v-if="person"
+      >
+        <div class="person-page__profile col-12">
+          <div class="person-page__thumbnail">
+            <img
+              :src="person.picture.large"
+              :alt="person.fullName"
+            >
+          </div>
+          <div class="person-page__title">
+            <h1 class="capitalize">
+              {{ person.fullName }}
+            </h1>
+            <small>Membro há {{ person.registered.age }} anos</small>
+          </div>
+        </div>
+        <div class="col-6">
+          <section class="person-page__data">
+            <h2>Dados pessoais</h2>
+            <dl>
+              <dt>Telefones</dt>
+              <dd>{{ person.cell }} / {{ person.phone }}</dd>
+              <dt>E-mail</dt>
+              <dd>{{ person.email }}</dd>
+              <dt>Idade</dt>
+              <dd>{{ person.dob.age }}</dd>
+              <dt>Fuso horário</dt>
+              <dd>
+                {{ person.location.timezone.offset }}
+                {{ person.location.timezone.description }}
+              </dd>
+            </dl>
+          </section>
+        </div>
+        <div class="col-6">
+          <section class="person-page__data">
+            <h2>Endereço</h2>
+            <dl>
+              <dt>Rua</dt>
+              <dd class="capitalize">
+                {{ person.street }}
+              </dd>
+              <dt>Cidade</dt>
+              <dd class="capitalize">
+                {{ person.city }}
+              </dd>
+              <dt>Estado</dt>
+              <dd class="capitalize">
+                {{ person.state }}
+              </dd>
+              <dt>CEP</dt>
+              <dd>{{ person.postcode }}</dd>
+            </dl>
+          </section>
+        </div>
       </div>
     </div>
+    <!-- eslint-disable vue/max-len -->
+    <iframe
+      v-if="person"
+      class="person-page__map"
+      :src="
+        `https://www.openstreetmap.org/export/embed.html?bbox=${person.location.coordinates.latitude}%2C${person.location.coordinates.longitude}%2C-20.459093749523166%2C-50.717844716742476&amp;layer=mapnik`
+      "
+    />
+    <base-loader v-show="isLoading" />
   </div>
 </template>
 
 <script>
+import BaseLoader from '@/components/UI/BaseLoader.vue';
+import BaseBreadcrumbs from '@/components/UI/BaseBreadcrumbs.vue';
+
 export default {
+  components: {
+    BaseLoader,
+    BaseBreadcrumbs,
+  },
   data() {
     return {
       isLoading: true,
@@ -88,10 +109,12 @@ export default {
             allData: true,
           })
           .then(({ results }) => {
+            console.log(results);
             const [person] = results;
             this.person = person;
           })
           .finally(() => {
+            console.log('results');
             this.isLoading = false;
           });
       }
@@ -102,5 +125,39 @@ export default {
 
 <style lang="scss">
 .person-page {
+  h1 {
+    margin-bottom: 0;
+    color: $secondary;
+  }
+  &__profile {
+    display: flex;
+  }
+  &__thumbnail {
+    border-radius: 50%;
+    height: 128px;
+    width: 128px;
+    overflow: hidden;
+    margin-right: 1em;
+  }
+  &__map {
+    width: 100%;
+    height: 400px;
+    margin: 0;
+    border: 0;
+  }
+  &__data {
+    padding-bottom: 2em;
+
+    dl {
+      dt {
+        margin-top: 1em;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .capitalize {
+    text-transform: capitalize;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <header class="page-header">
     <div class="page-header__wrapper container grid">
-      <div class="col-7">
+      <div class="col-3">
         <a
           href="/"
           class="page-header__logo"
@@ -9,7 +9,7 @@
           <page-logo />
         </a>
       </div>
-      <div class="col-5 page-header__search">
+      <div class="col-9 page-header__search">
         <base-input
           class="page-header__search-box"
           placeholder="Digite o nome do membro"
@@ -116,6 +116,10 @@ export default {
   }
   &__search {
     display: flex;
+  }
+  &__search-box {
+    margin-left: auto;
+    max-width: 400px;
   }
   &__search-results {
     position: absolute;
